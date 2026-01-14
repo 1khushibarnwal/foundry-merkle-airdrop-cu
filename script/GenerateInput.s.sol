@@ -2,7 +2,7 @@
 pragma solidity ^0.8.24;
 
 import { Script } from "forge-std/Script.sol";
-//import {stdJson} from "forge-std/StdJson.sol";
+import { stdJson } from "forge-std/StdJson.sol";
 import { console } from "forge-std/console.sol";
 
 // Merkle tree input file generator script
@@ -21,48 +21,48 @@ contract GenerateInput is Script {
         whitelist[2] = "0x2ea3970Ed82D5b30be821FAAD4a731D35964F7dd";
         whitelist[3] = "0xf6dBa02C01AF48Cf926579F77C9f874Ca640D91D";
         count = whitelist.length;
-        string memory input = _createJson();
+        string memory input = _createJSON();
         // write to the output file the stringified output json tree dump
         vm.writeFile(string.concat(vm.projectRoot(), INPUT_PATH), input);
 
         console.log("DONE: The output is found at %s", INPUT_PATH);
     }
 
-    function _createJson() internal view returns (string memory) {
+    function _createJSON() internal view returns (string memory) {
         string memory countString = vm.toString(count); // convert count to string
         string memory amountString = vm.toString(AMOUNT); // convert amount to string
-        string memory json = string.concat("{ 'types': ['address', 'uint'], 'count':", countString, ",'values': {");
+        string memory json = string.concat('{ "types": ["address", "uint"], "count":', countString, ',"values": {');
         for (uint256 i = 0; i < whitelist.length; i++) {
             if (i == whitelist.length - 1) {
                 json = string.concat(
                     json,
-                    "'",
+                    '"',
                     vm.toString(i),
-                    "'",
-                    ": { '0':",
-                    "'",
+                    '"',
+                    ': { "0":',
+                    '"',
                     whitelist[i],
-                    "'",
-                    ", '1':",
-                    "'",
+                    '"',
+                    ', "1":',
+                    '"',
                     amountString,
-                    "'",
+                    '"',
                     " }"
                 );
             } else {
                 json = string.concat(
                     json,
-                    "'",
+                    '"',
                     vm.toString(i),
-                    "'",
-                    ": { '0':",
-                    "'",
+                    '"',
+                    ': { "0":',
+                    '"',
                     whitelist[i],
-                    "'",
-                    ", '1':",
-                    "'",
+                    '"',
+                    ', "1":',
+                    '"',
                     amountString,
-                    "'",
+                    '"',
                     " },"
                 );
             }
